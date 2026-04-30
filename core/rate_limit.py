@@ -31,6 +31,11 @@ class StrictSlidingWindowLimiter:
         self._lock = asyncio.Lock()
 
     async def acquire(self) -> None:
+        """Acquire a token from the rate limiter.
+
+        If the rate limit has been reached, this method will block (sleep)
+        until a token becomes available according to the sliding window.
+        """
         while True:
             wait_time = 0.0
             async with self._lock:
